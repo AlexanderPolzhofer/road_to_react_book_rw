@@ -1,31 +1,31 @@
-import React from 'react';
+import React from "react";
+import { Item } from "./../Item/Item";
 
 interface ListProps {
-    list: {
-        ID: string;
-        title: string;
-        url: string;
-        author: string;
-        num_comments: number;
-        points: number;
-    }[]
+  list: {
+    ID: number;
+    title: string;
+    url: string;
+    author: string;
+    num_comments: number;
+    points: number;
+  }[];
+  onRemoveStory: (item: {
+    ID: number;
+    url: string;
+    title: string;
+    author: string;
+    num_comments: number;
+    points: number;
+  }) => void;
 }
 
-export const List: React.FC<ListProps> = ({ list }) => {
-    return (
-        <ul>
-            {list.map(item => {
-                return (
-                    <li key={item.ID}>
-                        <span>
-                            <a href={item.url}>{item.title}</a>
-                        </span>
-                        <span>{item.author}</span>
-                        <span>{item.num_comments}</span>
-                        <span>{item.points}</span>
-                    </li>
-                )
-            })}
-        </ul>
-    )
-}
+export const List: React.FC<ListProps> = ({ list, onRemoveStory }) => {
+  return (
+    <ul>
+      {list.map((item) => {
+        return <Item key={item.ID} item={item} onRemoveItem={onRemoveStory} />;
+      })}
+    </ul>
+  );
+};
