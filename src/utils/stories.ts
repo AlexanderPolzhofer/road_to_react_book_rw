@@ -1,13 +1,7 @@
 import React from "react";
+import { Stories } from "../components/List/List";
 
-export const stories: {
-  ID: number;
-  title: string;
-  url: string;
-  author: string;
-  num_comments: number;
-  points: number;
-}[] = [
+export const stories: Stories = [
   {
     ID: 1,
     title: "React",

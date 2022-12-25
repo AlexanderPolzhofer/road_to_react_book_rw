@@ -1,47 +1,81 @@
 import React from "react";
-import "./App.css";
 import { InputWithLabel } from "./components/InputWithLabel/InputWithLabel";
-import { List } from "./components/List/List";
+import { List, Stories } from "./components/List/List";
+import { Story } from "./components/Item/Item";
 import { stories as initialStories } from "./utils/stories";
+import "./App.css";
+
+type StoriesState = {
+  data: Stories;
+  isLoading: boolean;
+  isError: boolean;
+};
+
+type StoriesAction = {
+  type: string;
+  payload: any;
+};
+
+const initialState = {
+  data: initialStories,
+  isLoading: false,
+  isError: false,
+};
+
+const storiesReducer = (state: StoriesState, action: StoriesAction) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "STORIES_FETCH_INIT":
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    case "STORIES_FETCH_FAILURE":
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: payload,
+      };
+    case "STORIES_FETCH_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: payload,
+      };
+    case "REMOVE_STORY":
+      return {
+        ...state,
+        data: state.data.filter((story) => payload.ID !== story.ID),
+      };
+    default:
+      throw new Error();
+  }
+};
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = React.useState<string>(
+  const [searchTerm, setSearchTerm] = React.useState(
     localStorage.getItem("search") || ""
   );
-  const [stories, setStories] = React.useState<
-    {
-      ID: number;
-      title: string;
-      url: string;
-      author: string;
-      num_comments: number;
-      points: number;
-    }[]
-  >(initialStories);
 
-  React.useEffect(() => {
-    localStorage.setItem("search", searchTerm);
-  }, [searchTerm]);
+  const [stories, dispatchStories] = React.useReducer(
+    storiesReducer,
+    initialState
+  );
+
+  const searchedStories = stories.data.filter((story: Story) =>
+    story.title.toLowerCase()
+  );
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleRemoveStory = (item: {
-    ID: number;
-    url: string;
-    title: string;
-    author: string;
-    num_comments: number;
-    points: number;
-  }) => {
-    const newStories = stories.filter((story) => item.ID !== story.ID);
-    setStories(newStories);
+  const handleRemoveStory = (item: Story) => {
+    dispatchStories({ type: "REMOVE_STORY", payload: item });
   };
-
-  const searchedStories = stories.filter((story) =>
-    story.title.includes(searchTerm)
-  );
 
   return (
     <div className="App">
@@ -52,7 +86,7 @@ const App = () => {
         value={searchTerm}
         isFocused
       />
-      <List list={searchedStories} onRemoveStory={handleRemoveStory} />
+      <List list={searchedStories} onRemoveItem={handleRemoveStory} />
     </div>
   );
 };

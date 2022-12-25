@@ -1,23 +1,18 @@
 import React from "react";
 import { Button } from "./../Button/Button";
 
+export type Story = {
+  ID: number;
+  url: string;
+  title: string;
+  author: string;
+  num_comments: number;
+  points: number;
+};
+
 interface ItemProps {
-  item: {
-    ID: number;
-    url: string;
-    title: string;
-    author: string;
-    num_comments: number;
-    points: number;
-  };
-  onRemoveItem: (item: {
-    ID: number;
-    title: string;
-    url: string;
-    author: string;
-    num_comments: number;
-    points: number;
-  }) => void;
+  item: Story;
+  onRemoveItem: (item: Story) => void;
 }
 
 export const Item: React.FC<ItemProps> = ({ item, onRemoveItem }) => {

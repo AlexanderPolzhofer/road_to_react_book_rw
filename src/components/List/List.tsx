@@ -1,30 +1,18 @@
 import React from "react";
-import { Item } from "./../Item/Item";
+import { Item, Story } from "./../Item/Item";
+
+export type Stories = Story[];
 
 interface ListProps {
-  list: {
-    ID: number;
-    title: string;
-    url: string;
-    author: string;
-    num_comments: number;
-    points: number;
-  }[];
-  onRemoveStory: (item: {
-    ID: number;
-    url: string;
-    title: string;
-    author: string;
-    num_comments: number;
-    points: number;
-  }) => void;
+  list: Stories;
+  onRemoveItem: (item: Story) => void;
 }
 
-export const List: React.FC<ListProps> = ({ list, onRemoveStory }) => {
+export const List: React.FC<ListProps> = ({ list, onRemoveItem }) => {
   return (
     <ul>
       {list.map((item) => {
-        return <Item key={item.ID} item={item} onRemoveItem={onRemoveStory} />;
+        return <Item key={item.ID} item={item} onRemoveItem={onRemoveItem} />;
       })}
     </ul>
   );
