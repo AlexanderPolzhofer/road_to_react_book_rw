@@ -78,7 +78,8 @@ const App = () => {
   };
 
   return (
-    <div className="App">
+    <div className="container">
+      <h1 className="headline-primary">My Hacker Stories</h1>
       <InputWithLabel
         type="text"
         label="Search"

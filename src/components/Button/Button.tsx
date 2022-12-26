@@ -1,4 +1,5 @@
 import React from "react";
+import './Button.css';
 
 interface ButtonProps {
   type: "submit" | "button" | "reset" | undefined;
@@ -8,7 +9,7 @@ interface ButtonProps {
 
 export const Button: React.FC<ButtonProps> = ({ type, children, onClick }) => {
   return (
-    <button type={type} onClick={onClick}>
+    <button className="button" type={type} onClick={onClick}>
       {children}
     </button>
   );

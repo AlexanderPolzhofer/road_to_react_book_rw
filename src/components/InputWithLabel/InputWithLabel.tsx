@@ -1,4 +1,5 @@
 import React from "react";
+import "./InputWithLabel.css";
 
 interface InputWithLabelProps {
   label: string;
@@ -25,9 +26,10 @@ export const InputWithLabel: React.FC<InputWithLabelProps> = ({
 
   return (
     <div>
-      <label htmlFor={label.toLowerCase()}>{label}:</label>
+      <label className="label" htmlFor={label.toLowerCase()}>{label}:</label>
       &nbsp;
       <input
+        className="input"
         ref={inputRef}
         id={label.toLowerCase()}
         type={type}
